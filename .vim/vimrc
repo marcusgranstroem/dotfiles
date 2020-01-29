@@ -21,7 +21,7 @@ noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 " Enable mouse
 set mouse=a
-" Clipboard
+"  Clipboard
 " TODO
 " Change working directory
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
@@ -60,3 +60,8 @@ nnoremap <C-f> :Rg<Cr> " Ripgrep
 
 packloadall
 silent! helptags ALL
+
+" Manual instalation
+" Ripgrep in ubuntu 18.04
+"curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
+"sudo dpkg -i ripgrep_11.0.2_amd64.deb
