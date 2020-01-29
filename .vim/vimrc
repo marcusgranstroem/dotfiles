@@ -11,3 +11,12 @@ au BufNewFile,BufRead *.py
     \ set softtabstop=4
     \ set shiftwidth=4
 
+" Find stuff
+" FZF fuzzy finder
+" Install from git: 	git submodule add --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+"			~/.fzf/install
+set runtimepath+=~/.vim/plugins/fzf
+
+
+packloadall
+silent! helptags ALL
