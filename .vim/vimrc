@@ -57,7 +57,7 @@ nnoremap <C-f> :Rg<Cr> " Ripgrep
 " vim-addons install python-jedi 
 
 packloadall
-silental! helptags ALL
+silent! helptags ALL
 
 " Manual instalation
 " Ripgrep in ubuntu 18.04
