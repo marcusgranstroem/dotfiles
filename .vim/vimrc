@@ -2,6 +2,10 @@
 """""        Vimrc       """"""
 """""  Marcus Granström  """""" 
 """""""""""""""""""""""""""""""
+" Editor
+set relativenumber
+set colorcolumn=80
+set cursorline
 
 "  Indentation
 au BufNewFile,BufRead *.py
@@ -16,7 +20,10 @@ au BufNewFile,BufRead *.py
 " Install from git: 	git submodule add --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 "			~/.fzf/install
 set runtimepath+=~/.vim/plugins/fzf
-
+set runtimepath+=~/.vim/plugins/fzf.vim
+nnoremap <C-p> :Files<Cr> " Local search
+nnoremap <C-g> :Files ~<Cr> " Search in home
+nnoremap <C-f> :Rg<Cr> " Ripgrep
 
 packloadall
 silent! helptags ALL
