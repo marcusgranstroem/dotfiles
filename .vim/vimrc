@@ -6,6 +6,21 @@
 set relativenumber
 set colorcolumn=80
 set cursorline
+set splitbelow
+set splitright
+
+" Editor remappings
+inoremap jj <ESC>
+" Window movement
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+" Enable mouse
+set mouse=a
+" Clipboard
+" TODO
+
 
 "  Indentation
 au BufNewFile,BufRead *.py
@@ -17,13 +32,18 @@ au BufNewFile,BufRead *.py
 
 " Find stuff
 " FZF fuzzy finder
-" Install from git: 	git submodule add --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-"			~/.fzf/install
+" Install from git: 
+" git submodule add --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+" ~/.fzf/install
 set runtimepath+=~/.vim/plugins/fzf
 set runtimepath+=~/.vim/plugins/fzf.vim
 nnoremap <C-p> :Files<Cr> " Local search
 nnoremap <C-g> :Files ~<Cr> " Search in home
 nnoremap <C-f> :Rg<Cr> " Ripgrep
+
+" Install jedi:
+" sudo apt-get install vim-python-jedi
+" vim-addons install python-jedi 
 
 packloadall
 silent! helptags ALL
