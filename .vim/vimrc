@@ -11,6 +11,7 @@ set cursorline
 set splitbelow
 set splitright
 set showmatch
+set termguicolors
 
 " Editor remappings
 inoremap jj <ESC>
