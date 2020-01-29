@@ -3,11 +3,14 @@
 """""  Marcus Granström  """""" 
 """""""""""""""""""""""""""""""
 " Editor
+packadd! dracula
+colorscheme dracula
 set relativenumber
 set colorcolumn=80
 set cursorline
 set splitbelow
 set splitright
+set showmatch
 
 " Editor remappings
 inoremap jj <ESC>
@@ -21,8 +24,16 @@ set mouse=a
 " Clipboard
 " TODO
 
-
 "  Indentation
+set expandtab       " enter spaces when tab is pressed
+set textwidth=120   " break lines when line length increases
+set tabstop=4       " use 4 spaces to represent tab
+set softtabstop=4
+set shiftwidth=4    " number of spaces to use for auto indent
+filetype indent on
+
+" make backspaces more powerfull
+set backspace=indent,eol,start
 au BufNewFile,BufRead *.py
     \ set expandtab       |" replace tabs with spaces
     \ set autoindent      |" copy indent when starting a new line
