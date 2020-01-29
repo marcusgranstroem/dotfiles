@@ -21,10 +21,15 @@ noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 " Enable mouse
 set mouse=a
-"  Clipboard
+" Clipboard
 " TODO
 " Change working directory
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
+"Tabs
+nnoremap <C-Left> :tabprevious<CR>
+nnoremap <C-Right> :tabnext<CR>
+nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
 
 "  Indentation
 set expandtab       " enter spaces when tab is pressed
