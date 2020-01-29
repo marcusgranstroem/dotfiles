@@ -23,6 +23,8 @@ noremap <C-l> <C-w>l
 set mouse=a
 " Clipboard
 " TODO
+" Change working directory
+nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 
 "  Indentation
 set expandtab       " enter spaces when tab is pressed
