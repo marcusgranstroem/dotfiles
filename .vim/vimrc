@@ -33,8 +33,21 @@ nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
 nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
 
 nmap <silent> <F8> :TagbarToggle<CR>
-:command MakeTags !ctags . -R
+:command! MakeTags !ctags . -R
 set tags=./tags;
+
+nmap <F2> :NERDTreeToggle<CR>
+
+" Toggle fugitive Gstatus
+function! ToggleGStatus()
+    if buflisted(bufname('.git/index'))
+        bd .git/index
+    else
+        Gstatus
+    endif
+endfunction
+command ToggleGStatus :call ToggleGStatus()
+nmap <F3> :ToggleGStatus<CR>
 
 "  Indentation
 set expandtab       " enter spaces when tab is pressed
