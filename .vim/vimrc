@@ -12,6 +12,7 @@ set splitbelow
 set splitright
 set showmatch
 set termguicolors
+syntax on
 
 " Editor remappings
 inoremap jj <ESC>
