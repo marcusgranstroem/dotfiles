@@ -31,3 +31,6 @@
 [submodule ".vim/pack/plugins/start/tagbar"]
 	path = .vim/pack/plugins/start/tagbar
 	url = https://github.com/majutsushi/tagbar.git
+[submodule ".vim/pack/plugins/opt/palenight.vim"]
+	path = .vim/pack/plugins/opt/palenight.vim
+	url = https://github.com/drewtempelmeyer/palenight.vim.git
