@@ -34,3 +34,6 @@
 [submodule ".vim/pack/plugins/opt/palenight.vim"]
 	path = .vim/pack/plugins/opt/palenight.vim
 	url = https://github.com/drewtempelmeyer/palenight.vim.git
+[submodule ".vim/pack/plugins/start/vimwiki"]
+	path = .vim/pack/plugins/start/vimwiki
+	url = https://github.com/vimwiki/vimwiki.git

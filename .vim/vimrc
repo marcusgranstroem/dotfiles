@@ -13,8 +13,12 @@ set cursorline
 set splitbelow
 set splitright
 set showmatch
-set termguicolors
+set notermguicolors
 syntax on
+
+" Vimwiki specific
+set nocompatible
+filetype plugin on
 
 " Editor remappings
 inoremap jj <ESC>
@@ -91,3 +95,6 @@ silent! helptags ALL
 " Ripgrep in ubuntu 18.04
 "curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
 "sudo dpkg -i ripgrep_11.0.2_amd64.deb
+
+" Syntax that is not covered by ALE
+au BufRead,BufNewFile *.pv setfiletype proverif
