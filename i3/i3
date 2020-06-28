@@ -22,6 +22,7 @@ exec xrandr --output DVI-D-1 --left-of HDMI-1
 
 # Addjust mouse acceleration
 exec xinput --set-prop 8 'libinput Accel Speed' -0.6
+exec ~/startup.sh
 
 # Hibernate and lock
 bindsym $super+Pause exec "i3lock && systemctl suspend"
