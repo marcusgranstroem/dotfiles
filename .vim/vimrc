@@ -7,7 +7,7 @@
 "colorscheme dracula
 packadd! palenight.vim
 colorscheme palenight
-set relativenumber
+set number
 set colorcolumn=80
 set cursorline
 set splitbelow
@@ -15,6 +15,7 @@ set splitright
 set showmatch
 set notermguicolors
 syntax on
+set conceallevel=0 " Prevent weird latex math hiding
 
 " Vimwiki specific
 set nocompatible
