@@ -34,5 +34,7 @@ Plug 'xuhdev/vim-latex-live-preview'
 
 Plug 'kien/rainbow_parentheses.vim'
 
+Plug 'Valloric/YouCompleteMe'
+
 call plug#end()
 """""""" END PLUGINS """""""

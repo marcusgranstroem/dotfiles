@@ -26,6 +26,7 @@ set cursorline
 set splitbelow
 set splitright
 set hlsearch
+set hidden
 set showmatch
 set complete-=i
 set wildmenu		" Tabcompletion in menu
