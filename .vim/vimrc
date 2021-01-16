@@ -13,12 +13,12 @@ syntax on
 syntax enable
 filetype plugin on
 filetype indent on
-set tags=tags;/			" Check for tags in current dir and step until found
-set autoread 				" Read files when changed
-set lazyredraw 			" Smother scrolling
-set scrolloff=5    	" Display lines below/above cursor
+set tags=tags;/		" Check for tags in current dir and step until found
+set autoread		" Read files when changed
+set lazyredraw		" Smother scrolling
+set scrolloff=5		" Display lines below/above cursor
 set nocompatible
-set laststatus=2		" Always show status-bar
+set laststatus=2	" Always show status-bar
 set relativenumber
 set nu
 set mouse=a
@@ -28,7 +28,7 @@ set splitright
 set hlsearch
 set showmatch
 set complete-=i
-set wildmenu  			" Tabcompletion in menu
+set wildmenu		" Tabcompletion in menu
 set t_Co=256
 set background=dark
 
