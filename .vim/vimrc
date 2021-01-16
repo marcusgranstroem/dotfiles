@@ -1,50 +1,75 @@
 """""""""""""""""""""""""""""""
 """""        Vimrc       """"""
-"""""  Marcus Granström  """""" 
+"""""  Marcus Granström  """"""
 """""""""""""""""""""""""""""""
+"
+source ~/.vim/plugin
+
+set encoding=utf-8
+setlocal fileformat=unix
+
 " Editor
-"packadd! dracula
-"colorscheme dracula
-packadd! palenight.vim
-colorscheme palenight
-set number
-set colorcolumn=80
+syntax on
+syntax enable
+filetype plugin on
+filetype indent on
+set tags=tags;/			" Check for tags in current dir and step until found
+set autoread 				" Read files when changed
+set lazyredraw 			" Smother scrolling
+set scrolloff=5    	" Display lines below/above cursor
+set nocompatible
+set laststatus=2		" Always show status-bar
+set relativenumber
+set nu
+set mouse=a
 set cursorline
 set splitbelow
 set splitright
+set hlsearch
 set showmatch
-set notermguicolors
-syntax on
-set conceallevel=0 " Prevent weird latex math hiding
+set complete-=i
+set wildmenu  			" Tabcompletion in menu
+set t_Co=256
+set background=dark
 
-" Vimwiki specific
-set nocompatible
-filetype plugin on
+" Color
+colorscheme spacecamp
 
-" Editor remappings
-inoremap jj <ESC>
-" Window movement
-noremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
-" Enable mouse
-set mouse=a
-" Clipboard
-" TODO
-" Change working directory
-nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
-"Tabs
-nnoremap <C-n> :tabprevious<CR>
-nnoremap <C-m> :tabnext<CR>
-nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
-nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
+" Because 80 chars rocks
+highlight ColorColumn ctermbg=7
+set colorcolumn=80
 
-nmap <silent> <F8> :TagbarToggle<CR>
-:command! MakeTags !ctags . -R
-set tags=./tags;
+" Highlight trailing whitespaces
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
 
-nmap <F2> :NERDTreeToggle<CR>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Own commands
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Update config
+command! Sourceconf :source ~/dotfiles/.vim/vimrc
+
+:command! MakeTags !ctags . -R *
+
+" Format json file
+command! Jformat :%!jq --indent 4 .
+
+command! FindAll  exe printf('match IncSearch /\V\<%s\>/', escape(expand('<cword>'), '/\'))
+
+" Preview ripgrep results
+command! -bang -nargs=* Rg
+	\ call fzf#vim#grep(
+	\ 'rg --smart-case --line-number --no-heading --color=always --colors "path:fg:93,169,245" --colors "line:fg:128,128,128" --colors "match:fg:195,232,141" --no-hidden --ignore '.shellescape(<q-args>),
+	\ 0,
+	\ fzf#vim#with_preview({'options': '-e --delimiter : --nth 3..'}),
+	\ <bang>0)
+
+" Find todos in VimWiki
+nnoremap <Leader>todo :TwTodo<CR>
+command! -bang -nargs=* TwTodo
+	\ call fzf#vim#grep(
+	\ join(['rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape('[-*] \[[ X]\] .+'), '~/vimwiki']), 1,
+	\ fzf#vim#with_preview(),<bang>0)
 
 " Toggle fugitive Gstatus
 function! ToggleGStatus()
@@ -54,48 +79,137 @@ function! ToggleGStatus()
         Gstatus
     endif
 endfunction
-command ToggleGStatus :call ToggleGStatus()
+command! ToggleGStatus :call ToggleGStatus()
 nmap <F3> :ToggleGStatus<CR>
 
-"  Indentation
-set expandtab       " enter spaces when tab is pressed
-set textwidth=80   " break lines when line length increases
-set tabstop=4       " use 4 spaces to represent tab
-set softtabstop=4
-set shiftwidth=4    " number of spaces to use for auto indent
-filetype indent on
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
 
-" make backspaces more powerfull
+" Diff buffer against what is saved to file
+function! s:DiffWithSaved()
+	let filetype=&ft
+	diffthis
+	vnew | r # | normal! !Gdd
+	diffthis
+	exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" .filetype
+endfunction
+com! DiffSaved call s:DiffWithSaved()
+
+command! FindAll  exe printf('match IncSearch /\V\<%s\>/', escape(expand('<cword>'), '/\'))
+
+" Auto commands
+autocmd InsertEnter * :let @/=""	"Remove search
+autocmd InsertLeave * :let @/=""	"Remove search
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Editor remapping(s)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+inoremap jj <ESC>
+
+let mapleader = "\<Space>"
+" Window movement
+noremap <Leader>h <C-w>h
+noremap <Leader>j <C-w>j
+noremap <Leader>k <C-w>k
+noremap <Leader>l <C-w>l
+
+" Move splits
+noremap <C-Left> <C-w>R
+" Normalize splits
+noremap <C-Up> <C-w>=
+" Maxout current split
+noremap <C-Down> <C-w>\|
+" vertical -> horizontal
+noremap <S-Down> <C-w>t <C-W>K
+" horizontal -> vertical
+noremap <S-Up> <C-w>t <C-W>H
+
+" Tabs
+nnoremap <Leader>tp :tabprevious<CR>
+nnoremap <Leader>tn :tabnext<CR>
+nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
+
+" Buffer movement
+noremap <Leader>bn :bnext<Cr>
+noremap <Leader>bp :bprevious<Cr>
+noremap <Leader><space> :buffers<Cr>:buffer<Space>
+
+" Function buttons
+nmap <silent> <F2> :NERDTreeToggle<CR>
+nmap <silent> <F5> :setlocal spell! spell?<CR>
+nmap <silent> <F8> :TagbarToggle<CR>
+
+" make backspaces more powerful
 set backspace=indent,eol,start
-au BufNewFile,BufRead *.py
-    \ set expandtab       |" replace tabs with spaces
-    \ set autoindent      |" copy indent when starting a new line
-    \ set tabstop=4
-    \ set softtabstop=4
-    \ set shiftwidth=4
 
 " Find stuff
-" FZF fuzzy finder
-" Install from git: 
-" git submodule add --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-" ~/.fzf/install
-set runtimepath+=~/.vim/plugins/fzf
-set runtimepath+=~/.vim/plugins/fzf.vim
-nnoremap <C-p> :Files<Cr> " Local search
-nnoremap <C-g> :Files ~<Cr> " Search in home
-nnoremap <C-f> :Rg<Cr> " Ripgrep
+nnoremap <C-p> :Files<Cr>
+nnoremap <C-g> :Files ~<Cr>
+nnoremap <C-f> :Rg<Cr>
 
-" Install jedi:
-" sudo apt-get install vim-python-jedi
-" vim-addons install python-jedi 
+" Fugitive resolve conflicts
+nnoremap <Leader>gd :Gvdiffsplit!<CR>
+" Get committed into buffer
+nnoremap gdg :diffget //0<CR>
+" Conflicts mine/their
+nnoremap gdh :diffget //2<CR>
+nnoremap gdl :diffget //3<CR>
 
-packloadall
+" Step to next warning/error
+nnoremap <leader>an :ALENext<Cr>
+
+nnoremap F :FindAll<CR>
+
+nnoremap <Leader>wiki :VimwikiIndex<CR>
+
+nnoremap <leader>wiki :VimwikiIndex<cr>
+
 silent! helptags ALL
 
-" Manual instalation
-" Ripgrep in ubuntu 18.04
-"curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
-"sudo dpkg -i ripgrep_11.0.2_amd64.deb
-
-" Syntax that is not covered by ALE
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugin configs / other
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ALE configuration
+let g:ale_sign_error = '●'
+let g:ale_sign_warning = '●'
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
 au BufRead,BufNewFile *.pv setfiletype proverif
+let g:ale_fixers = {
+	\ '*': ['remove_trailing_lines', 'trim_whitespace']
+	\}
+let g:ale_type_map = {'flake8': {'ES': 'WS'}}
+
+" Indentline configuration
+let g:indentLine_char = '|'
+let g:indentLine_leadingSpaceEnabled = 1
+
+" Git gutter
+highlight clear SignColumn
+let g:gitgutter_highlight_lines=0
+let g:gitgutter_set_sign_backgrounds=0
+
+" Hack to set VimWiki header colors, move to separate file
+:hi VimwikiHeader1 guifg=#00ff9f
+:hi VimwikiHeader2 guifg=#00b8ff
+:hi VimwikiHeader3 guifg=#db60ff
+:hi VimwikiHeader4 guifg=#4c61ff
+:hi VimwikiHeader5 guifg=#d04cff
+:hi VimwikiHeader6 guifg=#FFFF00
+
+" Spell checking
+"set spell spelllang=en_us
+hi clear SepllBad
+hi SpellBad cterm=underline
+hi SpellBad gui=underline
+
+" Highlight trailing whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+
+" Searching
+set hlsearch	"Higlight all matches
+set incsearch	"Auto scroll to match
